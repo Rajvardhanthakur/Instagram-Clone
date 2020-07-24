@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 
-const Navbar = () => {
+const Navbar = () => { 
 	return (
 	  <nav>
       <div className="nav-wrapper white">
@@ -11,6 +11,7 @@ const Navbar = () => {
           <li><Link to="/login">Signin</Link></li>
           <li><Link to="/signup">Signup</Link></li>
           <li><Link to="/profile">profile</Link></li>
+          <li><Link to="/create">Create Post</Link></li>
         </ul>
       </div>
     </nav>
