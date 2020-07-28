@@ -14,7 +14,7 @@ const postSchema = new mongoose.Schema({
 	},
 	photo: {
 		type: String,
-		default: "default image"
+		required: true
 	},
 	postBy: {
 		type: ObjectId,
