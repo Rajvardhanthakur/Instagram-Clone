@@ -1,6 +1,22 @@
-import React from 'react'
+import React, {useState, useEffect, useContext} from 'react';
+import {UserContext} from "../../App";
 
 const Profile = () => {
+
+    const [pics, setPics] = useState([])
+    const {state, dispatch} = useContext(UserContext)
+
+    useEffect(() => {
+        fetch('/mypost', {
+            headers: {
+                "Authorization" : "Bearer "+localStorage.getItem("jwt")
+            }
+        }).then(res=> res.json())
+        .then(result => {
+            setPics(result.mypost)
+        })
+    }, [])
+
     return (
         <div style={{maxWidth:"950px", margin:"0px auto"}}>
             <div style={{
@@ -15,7 +31,7 @@ const Profile = () => {
                     />
                 </div>
                 <div>
-                    <h4>Steve Jobs</h4>
+        <h4>{state?state.name:"loading"}</h4>
                     <div style={{display:"flex", justifyContent:"space-between", width:"108%"}}>
                         <h6>86 posts</h6>
                         <h6>32.6M followers</h6>
@@ -24,13 +40,15 @@ const Profile = () => {
                 </div>
             </div>
             <div className="gallery">
-                <img className="item" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" />
-                <img className="item" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" />
-                <img className="item" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" />
-                <img className="item" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" />
-                <img className="item" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" />
-                <img className="item" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" />
-                <img className="item" src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" />
+
+                {
+                    pics.map(item => {
+                        return(
+                            <img key={item._id
+                            } className="item" src={item.photo} alt={item.title} />
+                        )
+                    })
+                }
             </div>
         </div>
     )

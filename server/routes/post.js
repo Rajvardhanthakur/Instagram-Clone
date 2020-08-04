@@ -10,6 +10,7 @@ const Post = mongoose.model("Post")
 router.get('/allpost',requireLogin, (req, res) => {
 	Post.find()
 	.populate("postBy", "_id name")
+	.populate("comments.postedBy","_id name")
 	.then(posts => {
 		res.json({posts})
 	})
@@ -50,6 +51,59 @@ router.get('/mypost', requireLogin, (req, res) => {
 	})
 	.catch(err=> {
 		console.log(err)
+	})
+})
+
+router.put('/like', requireLogin, (req, res) => {
+	Post.findByIdAndUpdate(req.body.postId, {
+		$push:{likes:req.user._id}
+	}, {
+		new:true
+	}).exec((err, result) => {
+		if(err){
+			return res.status(422).json({error:err})
+		}else{
+			res.json(result)
+		}
+	})
+})
+
+
+router.put('/unlike', requireLogin, (req, res) => {
+	Post.findByIdAndUpdate(req.body.postId, {
+		$pull:{likes:req.user._id}
+	}, {
+		new:true
+	}).exec((err, result) => {
+		if(err){
+			return res.status(422).json({error:err})
+		}else{
+			res.json(result)
+		}
+	})
+})
+
+
+router.put('/comment', requireLogin, (req, res) => {
+
+	const comment = {
+		text: req.body.text,
+		postedBy: req.user._id
+	}
+
+	Post.findByIdAndUpdate(req.body.postId, {
+		$push:{comments:comment}
+	}, {
+		new:true
+	})
+	.populate("comments.postedBy","_id name")
+	.populate("postBy","_id name")
+	.exec((err, result) => {
+		if(err){
+			return res.status(422).json({error:err})
+		}else{
+			res.json(result)
+		}
 	})
 })
 
