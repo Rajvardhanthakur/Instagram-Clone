@@ -6,10 +6,12 @@ import "./logs.css";
 const UserProfile = () => {
 
     const [userProfile, setProfile] = useState(null)
-    const [showFollow, setShowFollow] = useState(true)
+    
     const {state, dispatch} = useContext(UserContext)
     const {userid} = useParams()
     console.log(userid)
+
+    const [showFollow, setShowFollow] = useState(state? !state.following.includes(userid) : true)
 
     useEffect(() => {
         fetch(`/user/${userid}`, {
@@ -99,7 +101,7 @@ const UserProfile = () => {
              }}>
                  <div>
                      <img style={{width:"160px", height:"160px", borderRadius:"80px"}}
-                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSaaWvbsI6O4tJcUqPNfMwiVt-jTUg6BBcPLg&usqp=CAU"
+                     src={userProfile.user.pic}
                      />
                  </div>
                  <div>
