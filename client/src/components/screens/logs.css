@@ -49,3 +49,7 @@ h2{
     right: 20px !important;
     left: auto !important;
 }
+
+.button-margin{
+    margin: 10px;
+}
