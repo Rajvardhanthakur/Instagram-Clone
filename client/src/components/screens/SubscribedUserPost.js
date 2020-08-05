@@ -2,15 +2,16 @@ import React, {useState, useEffect, useContext} from 'react'
 import {Link} from 'react-router-dom';
 import "./logs.css";
 import {UserContext} from "../../App";
+import "./logs.css";
 
 
-const Home = () => {
+const SubscribedUserPost = () => {
 
     const [post , setPost] = useState([])
     const {state, dispatch} = useContext(UserContext)
 
     useEffect(()=>{
-        fetch('/allpost', {
+        fetch('/subsPosts', {
             headers: {
                 "Authorization": "Bearer "+localStorage.getItem("jwt") 
             }
@@ -165,4 +166,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default SubscribedUserPost;

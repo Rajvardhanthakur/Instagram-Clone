@@ -53,3 +53,12 @@ h2{
 .button-margin{
     margin: 10px;
 }
+
+
+.name-heading-padding{
+    padding: 6px;
+}
+
+.material-icons:hover{
+    cursor: pointer;
+}
